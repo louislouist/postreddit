@@ -1,31 +1,37 @@
-import { reddit } from "./redditClient";
+import snoowrap from 'snoowrap';
+import dotenv from 'dotenv';
 
-function postLink(subreddit: string, title: string, url: string) {
-	return reddit.submitLink({
-		subredditName: subreddit,
-		title,
-		url,
-	});
-}
+dotenv.config();
 
-function postSelf(subreddit: string, title: string, text: string) {
-	return reddit.submitSelfpost({
-		subredditName: subreddit,
-		title,
-		text,
-	});
-}
+const reddit = new snoowrap({
+	userAgent: process.env.USER_AGENT!,
+	clientId: process.env.REDDIT_CLIENT_ID!,
+	clientSecret: process.env.REDDIT_CLIENT_SECRET!,
+	username: process.env.REDDIT_USERNAME!,
+	password: process.env.REDDIT_PASSWORD!,
+});
+
+
+// function resolveBluebird<T>(p: Promise<any>): Promise<T> {
+// 	return p as unknown as Promise<T>;
+// }
 
 export async function postToSubreddit(
 	subreddit: string,
 	title: string,
 	content: string,
-	isLinkPost = false
 ) {
-	const post = isLinkPost
-		? postLink(subreddit, title, content)
-		: postSelf(subreddit, title, content);
+	try {
+		const raw = (await reddit.submitSelfpost as any)({
+			subredditName: subreddit,
+			title,
+			text: content,
+		});
 
+		const submission = raw as snoowrap.Submission;
 
-	console.log(`✅ Posted to r/${subreddit}: ${title}`);
+		console.log(`Posted: ${submission.url}`);
+	} catch (err) {
+		console.error('Error posting to subreddit:', err);
+	}
 }
