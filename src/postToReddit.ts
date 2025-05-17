@@ -1,16 +1,5 @@
 import snoowrap from 'snoowrap';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const reddit = new snoowrap({
-	userAgent: process.env.USER_AGENT!,
-	clientId: process.env.REDDIT_CLIENT_ID!,
-	clientSecret: process.env.REDDIT_CLIENT_SECRET!,
-	username: process.env.REDDIT_USERNAME!,
-	password: process.env.REDDIT_PASSWORD!,
-});
-
+import { reddit } from './redditClient';
 
 // function resolveBluebird<T>(p: Promise<any>): Promise<T> {
 // 	return p as unknown as Promise<T>;
@@ -22,7 +11,7 @@ export async function postToSubreddit(
 	content: string,
 ) {
 	try {
-		const raw = (await reddit.submitSelfpost as any)({
+		const raw = await (reddit.submitSelfpost as any)({
 			subredditName: subreddit,
 			title,
 			text: content,
