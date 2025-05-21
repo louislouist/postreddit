@@ -1,1 +1,1 @@
-export * from './postToReddit';
+export * from './RedditPoster';
