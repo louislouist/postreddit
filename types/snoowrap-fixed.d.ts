@@ -6,6 +6,18 @@ declare module 'snoowrap' {
 			subredditName: string;
 			title: string;
 			text: string;
-		}): Promise<any>; // Override recursive type
+		}): Promise<any>;
+
+		submitLink(options: {
+			subredditName: string;
+			title: string;
+			url: string;
+		}): Promise<any>;
+
+		submitMediaPost(options: {
+			subredditName: string;
+			title: string;
+			imagePath: string;
+		}): Promise<any>;
 	}
 }
