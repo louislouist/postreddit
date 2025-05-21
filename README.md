@@ -33,6 +33,30 @@ Each method logs the success to the console with the post or comment URL. Errors
 ```bash
 
 npm install git+http://github.com/louislouist/postreddit.git
+
+cd node_modules/postreddit
+
+npm run build
 ```
 
+## example code
 
+```ts
+import { RedditPoster, extractPostId } from 'postreddit';
+
+async function main() {
+	const postUrl = await RedditPoster.postText('test', 'Test B', 'Please work.');
+
+	if (postUrl) {
+		const postId = extractPostId(postUrl);
+		console.log(postUrl);
+
+		if (postId) {
+			await RedditPoster.commentOnPost(postId, 'Thanks for all the fish!');
+			console.log(postId);
+		}
+	}
+}
+
+main();
+```
