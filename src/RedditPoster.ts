@@ -75,6 +75,15 @@ export class RedditPoster {
 		}
 	}
 
+	static isConfigured(): boolean {
+		return !!(
+			process.env.REDDIT_CLIENT_ID &&
+			process.env.REDDIT_CLIENT_SECRET &&
+			process.env.REDDIT_USERNAME &&
+			process.env.REDDIT_PASSWORD &&
+			process.env.USER_AGENT
+		);
+	}
 }
 
 export function extractPostId(url: string): string | null {
