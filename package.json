@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist/*",
-    "testPost": "node dist/testPost.ts",
+    "testPost": "node dist/testPost.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
