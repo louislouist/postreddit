@@ -3,13 +3,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const reddit = new snoowrap({
-	userAgent: process.env.USER_AGENT!,
-	clientId: process.env.REDDIT_CLIENT_ID!,
-	clientSecret: process.env.REDDIT_CLIENT_SECRET!,
-	username: process.env.REDDIT_USERNAME!,
-	password: process.env.REDDIT_PASSWORD!,
-});
+let reddit: snoowrap | null = null;
+
+function getRedditInstance(): snoowrap {
+	if (!reddit) {
+		reddit = new snoowrap({
+			userAgent: process.env.USER_AGENT!,
+			clientId: process.env.REDDIT_CLIENT_ID!,
+			clientSecret: process.env.REDDIT_CLIENT_SECRET!,
+			username: process.env.REDDIT_USERNAME!,
+			password: process.env.REDDIT_PASSWORD!,
+		});
+	}
+	return reddit;
+}
 
 export class RedditPoster {
 	static async postText(
@@ -17,7 +24,9 @@ export class RedditPoster {
 		title: string,
 		content: string
 	): Promise<string | null> {
+		if (!this.isConfigured()) { return null; }
 		try {
+			const reddit = getRedditInstance();
 			const raw = await (reddit.submitSelfpost as any)({
 				subredditName: subreddit,
 				title,
@@ -38,7 +47,10 @@ export class RedditPoster {
 		title: string,
 		url: string
 	): Promise<string | null> {
+		if (!this.isConfigured()) { return null; }
+
 		try {
+			const reddit = getRedditInstance();
 			const raw = await (reddit.submitLink as any)({
 				subredditName: subreddit,
 				title,
@@ -58,7 +70,10 @@ export class RedditPoster {
 		postId: string,
 		comment: string
 	): Promise<string | null> {
+		if (!this.isConfigured()) { return null; }
+
 		try {
+			const reddit = getRedditInstance();
 			// Cast getSubmission as any to avoid recursive promise issues
 			const rawSubmission = await (reddit.getSubmission as any)(postId).fetch();
 			const submission = rawSubmission as snoowrap.Submission;
