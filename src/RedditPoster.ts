@@ -66,6 +66,51 @@ export class RedditPoster {
 		}
 	}
 
+	static async defaultPostText(
+		title: string,
+		content: string
+	): Promise<string | null> {
+		if (!this.isConfigured()) { return null; }
+		try {
+			const reddit = getRedditInstance();
+			const raw = await (reddit.submitSelfpost as any)({
+				subredditName: process.env.DEFAULT_SUBREDDIT,
+				title,
+				text: content,
+			});
+
+			const submission = raw as snoowrap.Submission;
+			console.log(`Text post submitted: ${submission.url}`);
+			return submission.url;
+		} catch (err) {
+			console.error('❌ Error posting text:', err);
+			return null;
+		}
+	}
+
+	static async defaultPostLink(
+		title: string,
+		url: string
+	): Promise<string | null> {
+		if (!this.isConfigured()) { return null; }
+
+		try {
+			const reddit = getRedditInstance();
+			const raw = await (reddit.submitLink as any)({
+				subredditName: process.env.DEFAULT_SUBREDDIT,
+				title,
+				url,
+			});
+
+			const submission = raw as snoowrap.Submission;
+			console.log(`Link post submitted: ${submission.url}`);
+			return submission.url;
+		} catch (err) {
+			console.error('❌ Error posting link:', err);
+			return null;
+		}
+	}
+
 	static async commentOnPost(
 		postId: string,
 		comment: string
@@ -96,7 +141,8 @@ export class RedditPoster {
 			process.env.REDDIT_CLIENT_SECRET &&
 			process.env.REDDIT_USERNAME &&
 			process.env.REDDIT_PASSWORD &&
-			process.env.USER_AGENT
+			process.env.USER_AGENT &&
+			process.env.DEFAULT_SUBREDDIT
 		);
 	}
 }
