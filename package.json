@@ -1,29 +1,29 @@
 {
-  "name": "postreddit",
-  "version": "1.0.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "clean": "rimraf dist/*",
-    "testPost": "node dist/testPost.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/louislouist/postreddit.git"
-  },
-  "keywords": [],
-  "author": "Louis Louis",
-  "license": "MIT",
-  "description": "",
-  "dependencies": {
-    "dotenv": "^16.5.0",
-    "rimraf": "^6.0.1",
-    "snoowrap": "^1.23.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.18",
-    "typescript": "^5.8.3"
-  }
+	"name": "postreddit",
+	"version": "1.0.2",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"clean": "rimraf dist/*",
+		"testPost": "node dist/testPost.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/louislouist/postreddit.git"
+	},
+	"keywords": [],
+	"author": "Louis Louis",
+	"license": "MIT",
+	"description": "",
+	"dependencies": {
+		"dotenv": "^16.5.0",
+		"rimraf": "^6.0.1",
+		"snoowrap": "^1.23.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.15.18",
+		"typescript": "^5.8.3"
+	}
 }

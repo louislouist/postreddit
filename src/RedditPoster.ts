@@ -34,7 +34,7 @@ export class RedditPoster {
 			});
 
 			const submission = raw as snoowrap.Submission;
-			console.log(`Text post submitted: ${submission.url}`);
+			console.log(`Text post submitted: ${submission.url.toString()}`);
 			return submission.url;
 		} catch (err) {
 			console.error('❌ Error posting text:', err);
